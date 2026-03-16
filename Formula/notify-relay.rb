@@ -1,8 +1,8 @@
 class NotifyRelay < Formula
   desc "Forward notify-send notifications to a host desktop session"
   homepage "https://github.com/xtruder/notify-relay"
-  url "https://github.com/xtruder/notify-relay/archive/refs/tags/v0.1.2.tar.gz"
-  sha256 "66e202660a5f84e8e3728a574460491e1069cf4af7f4f03cd18d3f110d52e944"
+  url "https://github.com/xtruder/notify-relay/archive/refs/tags/v0.1.3.tar.gz"
+  sha256 "d679275b6216cb19b5cdfad5449c5f3fbda88056a33795acc5f3184b783fd2a4"
   license "Apache-2.0"
 
   depends_on "go" => :build
