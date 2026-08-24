@@ -10,8 +10,8 @@ class Oo7 < Formula
   depends_on "rust" => :build
 
   def install
-    system "cargo", "install", *std_cargo_args, "--path", "server"
-    system "cargo", "install", *std_cargo_args, "--path", "cli"
+    system "cargo", "install", *std_cargo_args(path: "server")
+    system "cargo", "install", *std_cargo_args(path: "cli")
   end
 
   def caveats
