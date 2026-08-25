@@ -21,7 +21,8 @@ pours it. Source is the fallback for any platform without a bottle.
 ## Releasing a new version (bottle)
 
 Each release publishes a bottle on GitHub Releases so installs don't compile from
-source.
+source. Use a **formula-prefixed release tag** (`oo7-<VERSION>`) so multiple
+formulae in this tap never collide on a tag.
 
 1. Bump the formula: update `url` + `version` + source `sha256`, and **remove the
    old `bottle do … end` block**.
@@ -41,7 +42,7 @@ source.
 3. Generate the bottle:
 
    ```sh
-   brew bottle --root-url="https://github.com/xtruder/homebrew-tap/releases/download/<VERSION>" oo7
+   brew bottle --root-url="https://github.com/xtruder/homebrew-tap/releases/download/oo7-<VERSION>" oo7
    ```
 
 4. Publish it to a GitHub release. **Prerelease versions** get a `--` (double
@@ -50,7 +51,7 @@ source.
 
    ```sh
    mv oo7--<VERSION>.x86_64_linux.bottle.*.tar.gz oo7-<VERSION>.x86_64_linux.bottle.*.tar.gz
-   gh release create <VERSION> oo7-<VERSION>.x86_64_linux.bottle.*.tar.gz \
+   gh release create oo7-<VERSION> oo7-<VERSION>.x86_64_linux.bottle.*.tar.gz \
      --repo xtruder/homebrew-tap --title "oo7 <VERSION>" --generate-notes
    ```
 
@@ -60,7 +61,7 @@ source.
 
    ```ruby
    bottle do
-     root_url "https://github.com/xtruder/homebrew-tap/releases/download/<VERSION>"
+     root_url "https://github.com/xtruder/homebrew-tap/releases/download/oo7-<VERSION>"
      rebuild 1
      sha256 cellar: :any, x86_64_linux: "<sha256>"
    end
@@ -79,7 +80,7 @@ source.
   doesn't override "already installed" — uninstall first.
 - Prerelease bottles: `brew bottle` emits `oo7--<ver>…` (double dash) but
   `brew install` wants `oo7-<ver>…` (single dash); rename the asset to single dash.
-- `root_url` must include the release tag (`…/releases/download/<ver>`), because
-  Homebrew builds the URL as `root_url + "/" + filename`.
+- `root_url` must include the release tag (`…/releases/download/oo7-<ver>`),
+  because Homebrew builds the URL as `root_url + "/" + filename`.
 - Linux bottles inherit the builder's glibc — build on the oldest glibc you want
   to support (e.g. Ubuntu LTS, not the newest Fedora).
