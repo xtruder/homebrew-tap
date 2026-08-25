@@ -8,7 +8,7 @@ class Oo7 < Formula
   head "https://github.com/linux-credentials/oo7.git", branch: "main"
 
   bottle do
-    root_url "https://github.com/xtruder/homebrew-tap/releases/download"
+    root_url "https://github.com/xtruder/homebrew-tap/releases/download/0.7.0-alpha"
     rebuild 1
     sha256 cellar: :any, x86_64_linux: "9fe72eb87e6427280ecf88f68b2a9f10f986fe17c29480415360c860e6871f20"
   end
