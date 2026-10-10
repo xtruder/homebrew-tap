@@ -1,0 +1,15 @@
+name: Checksums
+
+on:
+  pull_request:
+    paths: ["Formula/**"]
+  push:
+    branches: [main]
+    paths: ["Formula/**"]
+
+jobs:
+  checksums:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - run: scripts/check-checksums.sh
