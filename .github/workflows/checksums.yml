@@ -2,10 +2,10 @@ name: Checksums
 
 on:
   pull_request:
-    paths: ["Formula/**"]
+    paths: ["Formula/**", "scripts/check-checksums.sh", ".github/workflows/checksums.yml"]
   push:
     branches: [main]
-    paths: ["Formula/**"]
+    paths: ["Formula/**", "scripts/check-checksums.sh", ".github/workflows/checksums.yml"]
 
 jobs:
   checksums:
