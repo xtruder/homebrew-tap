@@ -49,6 +49,16 @@
       "prBodyNotes": [
         "The Bottle workflow builds and publishes the bottle for this version and pushes the bottle block to this branch. Merge after that commit appears and checks are green."
       ]
+    },
+    {
+      "description": "Bottles link against the runner's glibc, so the bottle runner stays on the oldest supported Ubuntu.",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchDepNames": [
+        "ubuntu"
+      ],
+      "enabled": false
     }
   ]
 }
