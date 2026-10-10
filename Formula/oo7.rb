@@ -1,9 +1,9 @@
 class Oo7 < Formula
   desc "D-Bus Secret Service provider (org.freedesktop.secrets)"
   homepage "https://github.com/linux-credentials/oo7"
-  url "https://github.com/linux-credentials/oo7/archive/refs/tags/0.7.0.alpha.tar.gz"
+  url "https://github.com/linux-credentials/oo7/archive/refs/tags/0.7.0.beta.tar.gz"
   version "0.7.0-alpha"
-  sha256 "d999c235e5028558db901a5f92793441b90e2340a3a7392c331ee0dfa1d98176"
+  sha256 "b5bc59a755936fcc87de140e6210885c7e432f68fc0e60369457fde12d021ae1"
   license "MIT"
   head "https://github.com/linux-credentials/oo7.git", branch: "main"
 
