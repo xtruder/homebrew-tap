@@ -20,6 +20,13 @@ brew install oo7
 `oo7` ships a pre-built bottle for `x86_64_linux`, so `brew install` downloads and
 pours it. Source is the fallback for any platform without a bottle.
 
+## Updates
+
+Renovate opens PRs for new upstream releases (`renovate.json`; check it with
+`make validate`). `openbao-authorizer` PRs are complete: they bump every
+platform's release archive and checksum. `oo7` PRs bump only `url` and `sha256`;
+set `version` and rebuild the bottle (below) before merging.
+
 ## Releasing a new version (bottle)
 
 Each release publishes a bottle on GitHub Releases so installs don't compile from

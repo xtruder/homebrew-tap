@@ -1,0 +1,54 @@
+{
+  "extends": [
+    "config:recommended"
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^Formula/openbao-authorizer\\.rb$/"
+      ],
+      "matchStrings": [
+        "url \\\"https://github\\.com/xtruder/openbao-authorizer/releases/download/(?<currentValue>v[^/]+)/openbao-authorizer-v[^\\\"]+-(?<depType>(?:darwin|linux)-(?:arm64|amd64))\\.tar\\.gz\\\"\\s+sha256 \\\"(?<currentDigest>[a-f0-9]{64})\\\""
+      ],
+      "depNameTemplate": "xtruder/openbao-authorizer",
+      "datasourceTemplate": "github-release-attachments",
+      "versioningTemplate": "semver",
+      "autoReplaceStringTemplate": "url \"https://github.com/xtruder/openbao-authorizer/releases/download/{{{newValue}}}/openbao-authorizer-{{{newValue}}}-{{{depType}}}.tar.gz\"\n      sha256 \"{{{newDigest}}}\""
+    }
+  ],
+  "packageRules": [
+    {
+      "matchManagers": [
+        "homebrew"
+      ],
+      "matchFileNames": [
+        "Formula/openbao-authorizer.rb"
+      ],
+      "enabled": false
+    },
+    {
+      "matchManagers": [
+        "custom.regex"
+      ],
+      "matchPackageNames": [
+        "xtruder/openbao-authorizer"
+      ],
+      "groupName": "openbao-authorizer release",
+      "ignoreUnstable": false
+    },
+    {
+      "matchManagers": [
+        "homebrew"
+      ],
+      "matchFileNames": [
+        "Formula/oo7.rb"
+      ],
+      "versioning": "loose",
+      "ignoreUnstable": false,
+      "prBodyNotes": [
+        "Renovate updates only `url` and `sha256`. Before merging, set `version` to match the new tag and rebuild the bottle as described in the README (\"Releasing a new version (bottle)\"); the old `bottle do` block points at the previous version."
+      ]
+    }
+  ]
+}

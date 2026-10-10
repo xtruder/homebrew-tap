@@ -1,0 +1,2 @@
+# Bottles are published on GitHub releases, never committed.
+*.bottle.*.tar.gz
