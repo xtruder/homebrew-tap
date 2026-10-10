@@ -47,7 +47,7 @@
       "versioning": "loose",
       "ignoreUnstable": false,
       "prBodyNotes": [
-        "Renovate updates only `url` and `sha256`. Before merging, set `version` to match the new tag and rebuild the bottle as described in the README (\"Releasing a new version (bottle)\"); the old `bottle do` block points at the previous version."
+        "The Bottle workflow builds and publishes the bottle for this version and pushes the bottle block to this branch. Merge after that commit appears and checks are green."
       ]
     }
   ]

@@ -1,0 +1,100 @@
+name: Bottle
+
+# Builds bottles for formulae that ship them (those with a `bottle do` block),
+# publishes them on the `<formula>-<version>` release and commits the new
+# bottle block to the same branch. Renovate PRs bump only url and sha256, so
+# this runs on them; merge once it has pushed the bottle commit.
+on:
+  pull_request:
+    paths: ["Formula/**"]
+  workflow_dispatch:
+    inputs:
+      formula:
+        description: Formula to bottle
+        required: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: bottle-${{ github.head_ref || github.ref }}
+
+jobs:
+  bottle:
+    # Bottles are published from this repository's token, so never for forks.
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository
+    # The bottle links against the builder's glibc, so build on the oldest
+    # supported Ubuntu.
+    runs-on: ubuntu-22.04
+    env:
+      HOMEBREW_NO_AUTO_UPDATE: "1"
+      HOMEBREW_NO_INSTALL_FROM_API: "1"
+      HOMEBREW_NO_ANALYTICS: "1"
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.head_ref || github.ref }}
+          fetch-depth: 0
+
+      - id: formulae
+        name: Find formulae to bottle
+        env:
+          INPUT_FORMULA: ${{ inputs.formula }}
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          if [[ -n "$INPUT_FORMULA" ]]; then
+            files="Formula/$INPUT_FORMULA.rb"
+          else
+            files="$(git diff --name-only "origin/$BASE_REF...HEAD" -- 'Formula/*.rb')"
+          fi
+          names=""
+          for file in $files; do
+            [[ -f "$file" ]] && grep -q '^  bottle do' "$file" && names+=" $(basename "$file" .rb)"
+          done
+          echo "names=${names# }" >> "$GITHUB_OUTPUT"
+
+      # It taps this checkout as xtruder/tap itself; tapping again fails.
+      - if: steps.formulae.outputs.names != ''
+        uses: Homebrew/actions/setup-homebrew@1f8e202ffddf94def7f42f6fa3a482e821489f9c
+
+      - if: steps.formulae.outputs.names != ''
+        name: Build, publish and merge bottles
+        env:
+          NAMES: ${{ steps.formulae.outputs.names }}
+        run: |
+          tap="$(brew --repo xtruder/tap)"
+          for name in $NAMES; do
+            version="$(brew info --json=v2 "xtruder/tap/$name" | jq -er '.formulae[0].versions.stable')"
+            tag="$name-$version"
+            # A bottle commit already on this branch means there is nothing left to do.
+            if grep -q "releases/download/$tag\"" "$tap/Formula/$name.rb"; then
+              echo "$name $version is already bottled"
+              continue
+            fi
+
+            brew install --build-bottle "xtruder/tap/$name"
+            brew test "xtruder/tap/$name"
+            brew bottle --json --root-url="https://github.com/xtruder/homebrew-tap/releases/download/$tag" "xtruder/tap/$name"
+
+            # brew bottle writes prerelease bottles as `name--version...` but
+            # installs fetch `name-version...`: upload under the JSON's filename.
+            jq -r '.[].bottle.tags[] | "\(.local_filename) \(.filename)"' ./*.bottle.json |
+              while read -r local remote; do mv "$local" "$remote"; done
+
+            if ! gh release view "$tag" >/dev/null 2>&1; then
+              gh release create "$tag" --title "$name $version" --notes "Bottles for $name $version." \
+                $([[ "$version" == *[a-z]* ]] && echo --prerelease)
+            fi
+            gh release upload "$tag" ./*.bottle.*.tar.gz --clobber
+            brew bottle --merge --write --no-commit ./*.bottle.json
+            rm -f ./*.bottle.json ./*.bottle.*.tar.gz
+          done
+
+          # setup-homebrew may link the tap to this checkout; copy only if not.
+          if [[ "$(realpath "$tap")" != "$(realpath .)" ]]; then cp "$tap"/Formula/*.rb Formula/; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Formula
+          git diff --cached --quiet || git commit -m "bottle: $NAMES"
+          git push origin "HEAD:${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
