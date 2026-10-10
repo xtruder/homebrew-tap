@@ -4,7 +4,6 @@ Personal Homebrew tap.
 
 ## Formulae
 
-- `notify-relay` — forward `notify-send` notifications to a host desktop session
 - `openbao-authorizer` — human approval of OpenBao access requests, with the
   `bao-cred` client (prebuilt binaries for Linux and macOS)
 - `oo7` — D-Bus Secret Service provider (`org.freedesktop.secrets`), a headless
