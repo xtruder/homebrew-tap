@@ -97,4 +97,6 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add Formula
           git diff --cached --quiet || git commit -m "bottle: $NAMES"
-          git push origin "HEAD:${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
+          # checkout's stored credentials are tied to its original path, which
+          # setup-homebrew moves into the tap, so authenticate the push directly.
+          git push "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "HEAD:${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
