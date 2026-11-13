@@ -4,25 +4,25 @@ class OpenbaoAuthorizer < Formula
 
   on_macos do
     on_arm do
-      url "https://github.com/xtruder/openbao-authorizer/releases/download/v1.0.0-rc.14/openbao-authorizer-v1.0.0-rc.14-darwin-arm64.tar.gz"
-      sha256 "2e4cab63bd9ed10e8856b6af6d2f13f839f2f164b95ca66bea3fb53843cd7128"
+      url "https://github.com/xtruder/openbao-authorizer/releases/download/v1.0.0-rc.15/openbao-authorizer-v1.0.0-rc.15-darwin-arm64.tar.gz"
+      sha256 "c852157d3efb856473ecb08df0c31e97b3b8eedeb742b6c6117882e7af2d2eaf"
     end
 
     on_intel do
-      url "https://github.com/xtruder/openbao-authorizer/releases/download/v1.0.0-rc.14/openbao-authorizer-v1.0.0-rc.14-darwin-amd64.tar.gz"
-      sha256 "7275c6579a7482e67dae77cc49863ff3e47f4c256438e875cdebe99a1ab0e1da"
+      url "https://github.com/xtruder/openbao-authorizer/releases/download/v1.0.0-rc.15/openbao-authorizer-v1.0.0-rc.15-darwin-amd64.tar.gz"
+      sha256 "15e817e5c6e53b35adc86b64a73bfb0a573bd4a755f6f51290769cec819ef9de"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/xtruder/openbao-authorizer/releases/download/v1.0.0-rc.14/openbao-authorizer-v1.0.0-rc.14-linux-arm64.tar.gz"
-      sha256 "423f3e1407c313dc328c1ca5b63a801fc658c275e31d8e55ed5b82f0b1a23573"
+      url "https://github.com/xtruder/openbao-authorizer/releases/download/v1.0.0-rc.15/openbao-authorizer-v1.0.0-rc.15-linux-arm64.tar.gz"
+      sha256 "aacf2f61e47b932df3137de9fcf60a8c82b3456c3f8f32ab9f459090b8ee3fa7"
     end
 
     on_intel do
-      url "https://github.com/xtruder/openbao-authorizer/releases/download/v1.0.0-rc.14/openbao-authorizer-v1.0.0-rc.14-linux-amd64.tar.gz"
-      sha256 "ccfa2c0bdc18b161bf051d8d2c491c7cc5428916d58d79aa820adc48fdcbd06b"
+      url "https://github.com/xtruder/openbao-authorizer/releases/download/v1.0.0-rc.15/openbao-authorizer-v1.0.0-rc.15-linux-amd64.tar.gz"
+      sha256 "c8196b575449a1ca5df510c745ff0fe987230f08474aef043171eb065b2b0b1a"
     end
   end
 
